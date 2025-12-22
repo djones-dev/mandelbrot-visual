@@ -34,10 +34,20 @@ def compute_mandelbrot(
     for y in range(height):
         for x in range(width):
             # Convert pixel coordinates to complex plane
-            
+            z = complex(0)
+            c = complex(
+                (x - width / 2) / (zoom * width) + center_x,
+                (y - height / 2) / (zoom * height) + center_y
+            )
+
             # Compute number of iterations for this point
-            
+            if max_iterations:
+                for i in range(max_iterations):
+                    if abs(z) > 2:
+                        break
+                    # Core computation from the mandelbrot set
+                    z = z * z + c
             # Store result in mandelbrot_set array
-            pass
-    
+            mandelbrot_set[y, x] = i if i < max_iterations else max_iterations
+
     return mandelbrot_set.tolist()
