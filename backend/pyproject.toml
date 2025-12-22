@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "mandelbrot-visual-backend"
+version = "0.1.0"
+description = "Backend for a webbased mandelbrot visualizer"
+authors = ["Daniel Jones"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.127.0"
+uvicorn = "^0.40.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
