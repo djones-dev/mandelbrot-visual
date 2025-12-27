@@ -1,0 +1,41 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mandelbrot-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/docs')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - mandelbrot-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:8000
+    container_name: mandelbrot-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - mandelbrot-network
+    restart: unless-stopped
+
+networks:
+  mandelbrot-network:
+    driver: bridge
