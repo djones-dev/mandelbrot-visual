@@ -8,10 +8,13 @@ app = FastAPI(
     version="0.1.0"
 )
 
-# Allow requests from frontend
+# Allow requests from frontend (both local development and Docker)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Next.js frontend
+    allow_origins=[
+        "http://localhost:3000",  # Local development
+        "http://frontend:3000",   # Docker internal network
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
